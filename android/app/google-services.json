@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "548972387191",
+    "project_id": "navigation-app-7234c",
+    "storage_bucket": "navigation-app-7234c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548972387191:android:9db5f36635a98047c81f72",
+        "android_client_info": {
+          "package_name": "com.example.ar_navigation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC1uqTXTFR8qQ1qCDi8z8sND9a9-2ejJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548972387191:android:8f31273b095dc85fc81f72",
+        "android_client_info": {
+          "package_name": "com.example.indoor_navigatio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC1uqTXTFR8qQ1qCDi8z8sND9a9-2ejJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548972387191:android:738113a7b25f6a56c81f72",
+        "android_client_info": {
+          "package_name": "com.example.indoor_navigation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC1uqTXTFR8qQ1qCDi8z8sND9a9-2ejJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

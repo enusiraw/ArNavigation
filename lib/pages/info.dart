@@ -68,7 +68,7 @@ class _InfoState extends State<Info> {
                     ),
                   ),
                 ),
-                 Positioned(
+                  Positioned(
                   top: 30,
                   left: 100,
                   child: Container(

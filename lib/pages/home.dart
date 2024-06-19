@@ -1,8 +1,11 @@
 import 'package:ar_navigation/includes/colors.dart';
 import 'package:ar_navigation/includes/rooms.dart';
+import 'package:ar_navigation/pages/profile.dart';
+import 'package:ar_navigation/services/location_service.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
 
 import 'info.dart';
 //import 'package:indoor_navigation/pages/info.dart';
@@ -16,6 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final TextEditingController _searchController = TextEditingController();
+
   final textDisplay = GoogleFonts.lato(
     color: MyColors.textColorwhite,
     fontSize: 19.0,
@@ -26,6 +30,7 @@ class _HomeState extends State<Home> {
     fontSize: 12.0,
     fontWeight: FontWeight.bold,
   );
+
   final ScrollController _scrollController = ScrollController();
   final items = <Widget>[
     const Icon(
@@ -51,6 +56,15 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<LocationService>(context, listen: false)
+          .checkAndRequestLocation(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.backgroundColor,
@@ -62,7 +76,7 @@ class _HomeState extends State<Home> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Current Location",
+                 ' ${LocationService.currentAddress}',
                   style: GoogleFonts.lato(
                       fontSize: 16, color: MyColors.primaryColor),
                 ),
@@ -72,8 +86,9 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
               onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text('Edlawit')));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => Profile()),
+                );
               },
               icon: Icon(
                 Icons.person,

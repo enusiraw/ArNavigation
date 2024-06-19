@@ -1,16 +1,22 @@
 import 'package:ar_navigation/pages/home.dart';
-// Verify if this is correct or if it's 'welcome_screen.dart'
 import 'package:ar_navigation/pages/welcom_scree.dart';
+import 'package:ar_navigation/services/location_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LocationService(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

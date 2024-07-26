@@ -48,7 +48,7 @@ class LocationService with ChangeNotifier {
 
       Placemark place = placemarks[0];
       _currentAddress = "${place.locality}, ${place.country}";
-      notifyListeners(); // Notify listeners when the address is updated.
+      notifyListeners(); 
     } catch (e) {
       print(e);
     }

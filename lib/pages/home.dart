@@ -20,6 +20,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final TextEditingController _searchController = TextEditingController();
   Stream<QuerySnapshot>? _searchResults;
+  late LocationService _locationService;
+
 
   final textDisplay = GoogleFonts.lato(
     color: MyColors.textColorwhite,
@@ -56,14 +58,23 @@ class _HomeState extends State<Home> {
     );
   }
 
+  
   @override
   void initState() {
     super.initState();
+    _locationService = Provider.of<LocationService>(context, listen: false);
+    _initializeLocationService();
+  }
+
+  void _initializeLocationService() async {
+    await _locationService.checkAndRequestLocation(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(
+      create: (_) => _locationService,
+      child:  Scaffold(
       backgroundColor: MyColors.backgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0), // Adjusted height
@@ -411,6 +422,7 @@ class _HomeState extends State<Home> {
           child: const Icon(Icons.my_location),
         ),
       ),
+    ),
     );
   }
 

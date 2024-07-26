@@ -2,6 +2,8 @@ import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/login.dart';
 import 'package:ar_navigation/pages/signup.dart';
 import 'package:ar_navigation/pages/welcom.dart';
+import 'package:ar_navigation/services/checkUserlocation.dart';
+import 'package:ar_navigation/services/location_service.dart';
 import 'package:ar_navigation/theme/theme.dart';
 import 'package:ar_navigation/theme/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,13 +16,20 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+  //bool isAtOffice = await checkUserLocation();
+
+  //if (!isAtOffice) {
+    //print("wrong location");
+  //} else {
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => LocationService()),
+      ],
       child: const MyApp(),
-    ),
-  );
-}
+    ));
+  }
+//}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

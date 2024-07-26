@@ -2,7 +2,6 @@ import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/login.dart';
 import 'package:ar_navigation/pages/signup.dart';
 import 'package:ar_navigation/pages/welcom.dart';
-import 'package:ar_navigation/services/checkUserlocation.dart';
 import 'package:ar_navigation/services/location_service.dart';
 import 'package:ar_navigation/theme/theme.dart';
 import 'package:ar_navigation/theme/theme_provider.dart';

@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Center(
               child: Container(
                 height: MediaQuery.of(context).size.height / 3.5,
-                child: Image.asset("assets/images/image.png"),
+                child: Image.asset("assets/images/login2.jpg"),
               ),
             ),
             const SizedBox(height: 10),
@@ -155,8 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: ((context) =>
-                                const LoginScreen()),
+                              builder: ((context) => const LoginScreen()),
                             ),
                           );
                         },

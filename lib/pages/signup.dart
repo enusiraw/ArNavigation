@@ -125,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Center(
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 3.5,
-                child: Image.asset("assets/images/image.png"),
+                child: Image.asset("assets/images/login1.jpg"),
               ),
             ),
             const SizedBox(height: 10),

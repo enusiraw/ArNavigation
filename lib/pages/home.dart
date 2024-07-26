@@ -2,8 +2,8 @@ import 'package:ar_navigation/includes/colors.dart';
 import 'package:ar_navigation/includes/rooms.dart';
 import 'package:ar_navigation/pages/profile.dart';
 import 'package:ar_navigation/services/location_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final TextEditingController _searchController = TextEditingController();
+  Stream<QuerySnapshot>? _searchResults;
 
   final textDisplay = GoogleFonts.lato(
     color: MyColors.textColorwhite,
@@ -58,10 +59,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<LocationService>(context, listen: false)
-          .checkAndRequestLocation(context);
-    });
   }
 
   @override
@@ -76,7 +73,7 @@ class _HomeState extends State<Home> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                 ' ${LocationService.currentAddress}',
+                  ' ${LocationService.currentAddress}',
                   style: GoogleFonts.lato(
                       fontSize: 16, color: MyColors.primaryColor),
                 ),
@@ -182,7 +179,9 @@ class _HomeState extends State<Home> {
                     child: TextField(
                       controller: _searchController,
                       onChanged: (query) {
-                        _performSearch(query);
+                        setState(() {
+                          _searchResults = searchDepartments(query);
+                        });
                       },
                       decoration: const InputDecoration(
                         hintText: 'Search...',
@@ -198,7 +197,8 @@ class _HomeState extends State<Home> {
                       color: MyColors.textColorwhite,
                     ),
                     onTap: () {
-                      _performSearch(_searchController.text);
+                      searchDepartments;
+                     
                     },
                   ),
                 ],
@@ -414,10 +414,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _performSearch(String query) {
-    print('Searching for: $query');
-  }
-
   Widget _buildDrawerItem(IconData icon, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -433,4 +429,15 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+Stream<QuerySnapshot> searchDepartments(String searchTerm) {
+  return FirebaseFirestore.instance
+      .collection('buildings')
+      .doc('floors') // Replace with your building ID
+      .collection('departments')
+      .where('name',
+          isGreaterThanOrEqualTo:
+              searchTerm) // Adjust query based on your needs
+      .snapshots();
 }

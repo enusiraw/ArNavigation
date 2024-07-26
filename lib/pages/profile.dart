@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:ar_navigation/includes/colors.dart';
+import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +21,20 @@ class Profile extends StatelessWidget {
         }
         if (!snapshot.hasData) {
           return Scaffold(
-            body: Center(child: Text('No user signed in')),
+            body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('No user signed in'),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: Text('Sign In'),
+                ),
+              ],
+            )),
           );
         }
         final user = snapshot.data;
@@ -27,23 +42,77 @@ class Profile extends StatelessWidget {
         final firstName = getFirstName(email);
 
         return Scaffold(
-                appBar: AppBar(
-        title: Text('Profile'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              logOut(context);
-            },
-            icon: Icon(
-              Icons.logout,
-              size: 30.0,
-              color: Colors.black, // Replace with your desired color
+          backgroundColor: MyColors.backgroundColor,
+          appBar: AppBar(
+            backgroundColor: MyColors.backgroundColor,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: MyColors.primaryColorBg,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Home()));
+              },
             ),
-          )
-        ],
-      ),
-          body: Center(
-            child: Text(' $firstName!', style: TextStyle(fontSize: 24)),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  logOut(context);
+                },
+                icon: Icon(
+                  Icons.logout,
+                  size: 30.0,
+                  color: MyColors
+                      .primaryColorBg, // Replace with your desired color
+                ),
+              )
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(children: [
+              CircleAvatar(
+                  backgroundColor: Colors.white70,
+                  minRadius: 60.0,
+                  child: CircleAvatar(radius: 50.0, child: Icon(Icons.person))),
+              Center(
+                child: Column(
+                  children: [
+                    Text(' $firstName',
+                        style: TextStyle(
+                            fontSize: 24, color: MyColors.primaryColor)),
+                    Text('$email',
+                        style: TextStyle(
+                            fontSize: 18, color: MyColors.primaryColor)),
+                  ],
+                ),
+              ),
+              Divider(
+                height: 100,
+                color: MyColors.primaryColorBg,
+              ),
+              IconButton(
+                onPressed: () {
+                  logOut(context);
+                },
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      size: 30.0,
+                      color: MyColors.primaryColorBg,
+                    ),
+                    SizedBox(width: 5.0),
+                    Text(
+                      "Logout",
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ],
+                ),
+              )
+            ]),
           ),
         );
       },
@@ -52,7 +121,7 @@ class Profile extends StatelessWidget {
 
   String getFirstName(String email) {
     final localPart = email.split('@')[0];
-    final firstName = localPart.split('.')[0]; 
+    final firstName = localPart.split('.')[0];
     return capitalizeFirstLetter(firstName);
   }
 

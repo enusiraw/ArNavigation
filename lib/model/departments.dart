@@ -46,4 +46,5 @@ class Departments {
   Map<String, double> toMapMarkerPosition() {
     return {'latitude': location.latitude, 'longitude': location.longitude};
   }
+  
 }

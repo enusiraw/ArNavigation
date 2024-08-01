@@ -1,25 +1,30 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:ar_navigation/includes/colors.dart';
 import 'package:flutter/material.dart';
-
 
 class Rooms extends StatelessWidget {
   final String roomrsicon;
-  const Rooms({super.key, required this.roomrsicon, required Function() onTap});
+  final VoidCallback onTap; // Correctly define the onTap parameter
+
+  const Rooms({super.key, required this.roomrsicon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap, // Use the onTap callback
+      child: Container(
         decoration: BoxDecoration(
-          color: MyColors.tertiaryColor,
+          color: Colors.blue,
           borderRadius: BorderRadius.circular(12),
         ),
-        padding: EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(12.0),
         child: Center(
-            child: Text(roomrsicon,
-                style: TextStyle(
-                  fontSize: 28,
-                ))));
+          child: Text(
+            roomrsicon,
+            style: const TextStyle(
+              fontSize: 28,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

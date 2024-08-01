@@ -4,6 +4,7 @@ import 'colors.dart';
 
 
 class Floors extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final icon;
   final String floorName;
   final int numberOfFloor;

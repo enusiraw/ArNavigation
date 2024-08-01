@@ -2,10 +2,10 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class NavigationPge extends StatefulWidget {
-  const NavigationPge({super.key});
+const NavigationPge({super.key});
 
-  @override
-  State<NavigationPge> createState() => _NavigationPgeState();
+@override
+State<NavigationPge> createState() => _NavigationPgeState();
 }
 
 class _NavigationPgeState extends State<NavigationPge> {
@@ -46,6 +46,9 @@ class _NavigationPgeState extends State<NavigationPge> {
       body: Stack(
         children: [
           CameraPreview(_cameraController!),
+          CustomPaint(
+            size: MediaQuery.of(context).size,
+          ),
           Positioned(
             top: 50,
             left: 20,

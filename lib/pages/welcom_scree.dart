@@ -21,7 +21,7 @@ class WelcomeScreen extends StatelessWidget {
             Center(
               child: Container(
                 height: MediaQuery.of(context).size.height / 2.5,
-                child: Image.asset("assets/images/image.png"), // Correct asset path
+                child: Image.asset("assets/images/image.png"), //
               ),
             ),
             Text(

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, use_super_parameters
+
 import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/signup.dart';
 import 'package:ar_navigation/utilities/validators.dart';
@@ -155,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: ((context) => const LoginScreen()),
+                              builder: ((context) =>   const LoginScreen()),
                             ),
                           );
                         },

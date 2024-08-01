@@ -10,60 +10,73 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
   await Firebase.initializeApp();
 
-  //bool isAtOffice = await checkUserLocation();
-
-  //if (!isAtOffice) {
-    //print("wrong location");
-  //} else {
-    runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => LocationService()),
-      ],
-      child: const MyApp(),
-    ));
-  }
-//}
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(create: (context) => LocationService()),
+    ],
+    child: const MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
-      return ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: themeProvider.themeMode,
-            routes: {
-              //'/': (context) => Home(),
-              '/signin': (context) => const SignUpScreen(),
-              '/login': (context) => const LoginScreen(),
-            },
-            home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return const Home();
-                } else {
-                  return const Welcome();
-                }
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: themeProvider.themeMode,
+              routes: {
+                '/signin': (context) => const SignUpScreen(),
+                '/login': (context) => const LoginScreen(),
               },
-            ),
-          );
-        },
-      );
-    });
+              home: FutureBuilder<bool>(
+                future: _checkFirstLaunch(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data == true) {
+                    return const Home();
+                  }
+                  return StreamBuilder<User?>(
+                    stream: FirebaseAuth.instance.authStateChanges(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return const Home();
+                      } else {
+                        return const Welcome();
+                      }
+                    },
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<bool> _checkFirstLaunch() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isFirstLaunch') ?? true;
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_build_context_synchronously, sized_box_for_whitespace
+
 import 'package:ar_navigation/utilities/validators.dart';
 import 'package:ar_navigation/widgets/text.dart';
 import 'package:ar_navigation/widgets/textField.dart';

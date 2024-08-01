@@ -1,4 +1,5 @@
 import 'package:ar_navigation/pages/home.dart';
+import 'package:ar_navigation/services/google_services.dart';
 import 'package:ar_navigation/utilities/validators.dart';
 import 'package:ar_navigation/widgets/button_widget.dart';
 import 'package:ar_navigation/widgets/social_button.dart';
@@ -7,7 +8,6 @@ import 'package:ar_navigation/widgets/textField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -169,14 +169,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     txtSize: 22,
                     txtColor: Color(0xffdddee3),
                   ),
-
                   InputTxtField(
                     hintText: "Password",
                     controller: passwordController,
                     validator: passwordValidator,
                     obscureText: true,
                   ),
-
                   SizedBox(
                     height: 60,
                     width: MediaQuery.of(context).size.width,
@@ -213,10 +211,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   Center(
                       child: SocialButtonWidget(
-                    bgColor: Colors.white,
-                    imagePath: 'assets/images/Gmail.png',
-                    onPress: () {},
-                  )),
+                          bgColor: Colors.white,
+                          imagePath: 'assets/images/Gmail.png',
+                          onPress: () async {
+                            await Services.googleSignIn(context);
+                          })),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.center,
                   //   children: [
@@ -226,12 +225,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   //         onPress: () async {
                   //           await Services.googleSignIn(context);
                   //         }),
-                  //     const SizedBox(width: 25.0),
-                  //     SocialButtonWidget(
-                  //       bgColor: const Color(0xff1877f2),
-                  //       imagePath: 'assets/facebook.png',
-                  //       onPress: () {},
-                  //     ),
                   //   ],
                   // ),
                 ],

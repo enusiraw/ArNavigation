@@ -7,5 +7,5 @@ class MyColors {
   static Color tertiaryColor = const Color.fromARGB(200, 65, 66, 66);
   static Color backgroundColor = const Color.fromARGB(255, 28, 27, 27);
   static Color textColorwhite = const Color.fromARGB(255, 255, 255, 255);
-  static Color lightmodecontainer = Color.fromARGB(255, 141, 140, 140);
+  static Color lightmodecontainer = const Color.fromARGB(255, 141, 140, 140);
 }

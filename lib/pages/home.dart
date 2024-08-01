@@ -1,8 +1,12 @@
 import 'package:ar_navigation/includes/colors.dart';
 import 'package:ar_navigation/includes/rooms.dart';
+import 'package:ar_navigation/pages/forgotPassword.dart';
 import 'package:ar_navigation/pages/profile.dart';
+import 'package:ar_navigation/pages/search.dart';
 import 'package:ar_navigation/services/location_service.dart';
+import 'package:ar_navigation/utilities/db_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -83,8 +87,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     ' ${LocationService.currentAddress}',
-                    style: GoogleFonts.lato(
-                        fontSize: 16, color: MyColors.primaryColor),
+                    style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
                   ),
                 ],
               ),
@@ -126,23 +129,59 @@ class _HomeState extends State<Home> {
               DrawerHeader(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 70.0),
-                      child: Text(
-                        'edlsiraw@mail.com',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: MyColors.primaryColor,
-                        ),
-                      ),
-                    ),
-                    const CircleAvatar(
-                      radius: 30.0,
-                      child: Icon(
-                        Icons.account_circle,
-                        size: 40.0,
-                      ),
+                  children: <Widget>[
+                    FutureBuilder<User?>(
+                      future: DBUtils.getCurrentUser(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const UserAccountsDrawerHeader(
+                            accountName: Text('Loading...'),
+                            accountEmail: Text('Loading...'),
+                            currentAccountPicture: CircleAvatar(
+                              child: Icon(Icons.person),
+                            ),
+                          );
+                        }
+                        if (!snapshot.hasData) {
+                          return const UserAccountsDrawerHeader(
+                            accountName: Text('No user'),
+                            accountEmail: Text('No email'),
+                            currentAccountPicture: CircleAvatar(
+                              child: Icon(Icons.person),
+                            ),
+                          );
+                        }
+
+                        final user = snapshot.data;
+                        final email = user?.email ?? '';
+
+                        return FutureBuilder<String?>(
+                          future: DBUtils.getFirstName(),
+                          builder: (context, nameSnapshot) {
+                            if (nameSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return UserAccountsDrawerHeader(
+                                accountName: const Text('Loading...'),
+                                accountEmail: Text(email),
+                                currentAccountPicture: const CircleAvatar(
+                                  child: Icon(Icons.person),
+                                ),
+                              );
+                            }
+
+                            final firstName = nameSnapshot.data ?? '';
+
+                            return UserAccountsDrawerHeader(
+                              accountName: Text(firstName),
+                              accountEmail: Text(email),
+                              currentAccountPicture: const CircleAvatar(
+                                child: Icon(Icons.person),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -200,13 +239,13 @@ class _HomeState extends State<Home> {
                         style: textDisplaySmall,
                       ),
                     ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.search,
-                        color: MyColors.textColorwhite,
-                      ),
-                      onTap: () {
-                        searchDepartments;
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SearchPage()),
+                        );
                       },
                     ),
                   ],
@@ -227,7 +266,7 @@ class _HomeState extends State<Home> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const Home(), // Navigate to FloorDetail screen
+                                  const Info(), // Navigate to FloorDetail screen
                             ),
                           );
                         },
@@ -245,7 +284,7 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Home()),
+                                builder: (context) => const Info()),
                           );
                         },
                       ),
@@ -262,8 +301,7 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const Home(), 
+                              builder: (context) => const Info(),
                             ),
                           );
                         },
@@ -281,8 +319,7 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const Home(), // Navigate to FloorDetail screen
+                              builder: (context) => const Info(),
                             ),
                           );
                         },
@@ -335,7 +372,7 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => const Home()),
+                                  builder: (context) => const Info()),
                             );
                           },
                           child: Container(
@@ -351,7 +388,7 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => const Home()),
+                                  builder: (context) => const Info()),
                             );
                           },
                           child: Container(
@@ -367,7 +404,7 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => const Home()),
+                                  builder: (context) => const Info()),
                             );
                           },
                           child: Container(
@@ -445,10 +482,8 @@ class _HomeState extends State<Home> {
 Stream<QuerySnapshot> searchDepartments(String searchTerm) {
   return FirebaseFirestore.instance
       .collection('buildings')
-      .doc('floors') // Replace with your building ID
+      .doc('floors')
       .collection('departments')
-      .where('name',
-          isGreaterThanOrEqualTo:
-              searchTerm) // Adjust query based on your needs
+      .where('name', isGreaterThanOrEqualTo: searchTerm)
       .snapshots();
 }

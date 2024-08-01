@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ar_navigation/pages/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,7 +24,7 @@ class _CameraServiceState extends State<CameraService> {
       if (await Permission.camera.request().isGranted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => NavigationPge()),
+          MaterialPageRoute(builder: (context) => const NavigationPge()),
         );
       }
     } else if (status.isGranted) {

@@ -1,12 +1,11 @@
 import 'package:ar_navigation/includes/colors.dart';
 import 'package:ar_navigation/includes/rooms.dart';
-import 'package:ar_navigation/pages/forgotPassword.dart';
+import 'package:ar_navigation/pages/navigation.dart';
 import 'package:ar_navigation/pages/profile.dart';
 import 'package:ar_navigation/pages/search.dart';
 import 'package:ar_navigation/services/location_service.dart';
 import 'package:ar_navigation/utilities/db_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +22,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final TextEditingController _searchController = TextEditingController();
+  // ignore: unused_field
   Stream<QuerySnapshot>? _searchResults;
   late LocationService _locationService;
+  int _currentIndex = 0;
 
   final textDisplay = GoogleFonts.lato(
     color: MyColors.textColorwhite,
@@ -61,6 +62,18 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // ignore: unused_field
+  final List<Widget> _pages = [
+    const Home(),
+    const NavigationPge(),
+  ];
+
+  void _onTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +84,12 @@ class _HomeState extends State<Home> {
   void _initializeLocationService() async {
     await _locationService.checkAndRequestLocation(context);
   }
+void _onSearchChanged(String query) {
+  setState(() {
+    _searchResults = DBUtils.searchDepartments(query) as Stream<QuerySnapshot<Object?>>?;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +98,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         backgroundColor: MyColors.backgroundColor,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100.0), // Adjusted height
+          preferredSize: const Size.fromHeight(100.0),
           child: AppBar(
             title: Center(
               child: Column(
@@ -126,71 +145,46 @@ class _HomeState extends State<Home> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FutureBuilder<User?>(
-                      future: DBUtils.getCurrentUser(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const UserAccountsDrawerHeader(
-                            accountName: Text('Loading...'),
-                            accountEmail: Text('Loading...'),
-                            currentAccountPicture: CircleAvatar(
-                              child: Icon(Icons.person),
-                            ),
-                          );
-                        }
-                        if (!snapshot.hasData) {
-                          return const UserAccountsDrawerHeader(
-                            accountName: Text('No user'),
-                            accountEmail: Text('No email'),
-                            currentAccountPicture: CircleAvatar(
-                              child: Icon(Icons.person),
-                            ),
-                          );
-                        }
-
-                        final user = snapshot.data;
-                        final email = user?.email ?? '';
-
-                        return FutureBuilder<String?>(
-                          future: DBUtils.getFirstName(),
-                          builder: (context, nameSnapshot) {
-                            if (nameSnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return UserAccountsDrawerHeader(
-                                accountName: const Text('Loading...'),
-                                accountEmail: Text(email),
-                                currentAccountPicture: const CircleAvatar(
-                                  child: Icon(Icons.person),
-                                ),
-                              );
-                            }
-
-                            final firstName = nameSnapshot.data ?? '';
-
-                            return UserAccountsDrawerHeader(
-                              accountName: Text(firstName),
-                              accountEmail: Text(email),
-                              currentAccountPicture: const CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
+              UserAccountsDrawerHeader(
+                accountName: const Text('User Name'),
+                accountEmail: const Text('user@example.com'),
+                currentAccountPicture: const CircleAvatar(
+                  child: Icon(Icons.person),
+                ),
+                decoration: BoxDecoration(
+                  color: MyColors.primaryColor,
                 ),
               ),
-              _buildDrawerItem(Icons.home, 'Home'),
-              _buildDrawerItem(Icons.map, 'Map View'),
-              _buildDrawerItem(Icons.settings, 'Settings'),
-              _buildDrawerItem(Icons.info, 'About Us'),
-              _buildDrawerItem(Icons.contact_page_outlined, 'Contact Us'),
+              _buildDrawerItem(
+                Icons.home,
+                'Home',
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+              ),
+              _buildDrawerItem(
+                Icons.map,
+                'Map View',
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+              ),
+              _buildDrawerItem(
+                Icons.settings,
+                'Settings',
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+              ),
+              _buildDrawerItem(
+                Icons.info,
+                'About Us',
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+              ),
+              _buildDrawerItem(Icons.contact_page_outlined, 'Contact Us',
+                  onTap: () {}),
             ],
           ),
         ),
@@ -254,6 +248,36 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 height: 20,
               ),
+               Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _searchResults,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Text('No results found');
+                  }
+
+                  final results = snapshot.data!.docs;
+                  return ListView.builder(
+                    itemCount: results.length,
+                    itemBuilder: (context, index) {
+                      var department = results[index];
+                      return ListTile(
+                        title: Text(department['name']),
+                        onTap: () {
+                          // Handle tap on the department
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -434,6 +458,7 @@ class _HomeState extends State<Home> {
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
           child: BottomNavigationBar(
+            currentIndex: _currentIndex,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -445,6 +470,7 @@ class _HomeState extends State<Home> {
               ),
             ],
             backgroundColor: MyColors.tertiaryColor,
+            onTap: _onTap,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -462,7 +488,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildDrawerItem(IconData icon, String title) {
+  Widget _buildDrawerItem(IconData icon, String title,
+      {required Null Function() onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: ListTile(
@@ -471,9 +498,7 @@ class _HomeState extends State<Home> {
           title,
           style: GoogleFonts.lato(fontSize: 16, color: MyColors.primaryColor),
         ),
-        onTap: () {
-          Navigator.pop(context);
-        },
+        onTap: onTap,
       ),
     );
   }

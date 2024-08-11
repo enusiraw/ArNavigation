@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:ar_navigation/includes/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -18,15 +16,22 @@ final ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: const Color.fromARGB(255, 240, 233, 233),
   appBarTheme: AppBarTheme(
     backgroundColor: MyColors.secondaryColor,
-    titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+    titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: MyColors.primaryColorBg
+      backgroundColor: MyColors.primaryColorBg,
     ),
   ),
- 
+  colorScheme: ColorScheme.light(
+    primary: MyColors.primaryColorBg,
+    onPrimary: Colors.white,
+    secondary: MyColors.secondaryColor,
+    onSecondary: Colors.white,
+    surface: Colors.white,
+    onSurface: Colors.black,
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -42,8 +47,8 @@ final ThemeData darkTheme = ThemeData(
     labelSmall: TextStyle(color: Colors.white),
   ),
   scaffoldBackgroundColor: Colors.black,
-  appBarTheme: AppBarTheme(
-    backgroundColor: Colors.blueGrey, // Set AppBar background color
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Colors.blueGrey,
     titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -51,5 +56,13 @@ final ThemeData darkTheme = ThemeData(
       foregroundColor: Colors.white,
       backgroundColor: Colors.blueGrey,
     ),
+  ),
+  colorScheme: ColorScheme.dark(
+    primary: Colors.blueGrey,
+    onPrimary: Colors.white,
+    secondary: MyColors.secondaryColor,
+    onSecondary: Colors.white,
+    surface: Colors.black,
+    onSurface: Colors.white,
   ),
 );

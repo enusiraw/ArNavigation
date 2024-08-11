@@ -1,17 +1,15 @@
 import 'package:ar_navigation/includes/colors.dart';
+import 'package:ar_navigation/includes/functions%5D/search_service.dart';
 import 'package:ar_navigation/includes/rooms.dart';
 import 'package:ar_navigation/pages/navigation.dart';
 import 'package:ar_navigation/pages/profile.dart';
-import 'package:ar_navigation/pages/search.dart';
 import 'package:ar_navigation/services/location_service.dart';
 import 'package:ar_navigation/utilities/db_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import 'info.dart';
-//import 'package:indoor_navigation/pages/info.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -22,8 +20,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final TextEditingController _searchController = TextEditingController();
-  // ignore: unused_field
-  Stream<QuerySnapshot>? _searchResults;
+  final ScrollController _scrollController = ScrollController();
+
+  List<DocumentSnapshot> _searchResults = [];
+  final SearchService _searchService = SearchService();
   late LocationService _locationService;
   int _currentIndex = 0;
 
@@ -38,7 +38,6 @@ class _HomeState extends State<Home> {
     fontWeight: FontWeight.bold,
   );
 
-  final ScrollController _scrollController = ScrollController();
   final items = <Widget>[
     const Icon(
       Icons.home,
@@ -62,12 +61,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // ignore: unused_field
-  final List<Widget> _pages = [
-    const Home(),
-    const NavigationPge(),
-  ];
-
   void _onTap(int index) {
     setState(() {
       _currentIndex = index;
@@ -84,12 +77,20 @@ class _HomeState extends State<Home> {
   void _initializeLocationService() async {
     await _locationService.checkAndRequestLocation(context);
   }
-void _onSearchChanged(String query) {
-  setState(() {
-    _searchResults = DBUtils.searchDepartments(query) as Stream<QuerySnapshot<Object?>>?;
-  });
-}
 
+  void _searchDepartments() async {
+    final query = _searchController.text;
+    if (query.isNotEmpty) {
+      final results = await _searchService.searchDepartments(query);
+      setState(() {
+        _searchResults = results;
+      });
+    } else {
+      setState(() {
+        _searchResults = [];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,9 +222,7 @@ void _onSearchChanged(String query) {
                       child: TextField(
                         controller: _searchController,
                         onChanged: (query) {
-                          setState(() {
-                            _searchResults = searchDepartments(query);
-                          });
+                          _searchDepartments();
                         },
                         decoration: const InputDecoration(
                           hintText: 'Search...',
@@ -235,12 +234,7 @@ void _onSearchChanged(String query) {
                     ),
                     IconButton(
                       icon: const Icon(Icons.search),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SearchPage()),
-                        );
-                      },
+                      onPressed: _searchDepartments,
                     ),
                   ],
                 ),
@@ -248,36 +242,6 @@ void _onSearchChanged(String query) {
               const SizedBox(
                 height: 20,
               ),
-               Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _searchResults,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) {
-                    return const Text('Something went wrong');
-                  }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Text('No results found');
-                  }
-
-                  final results = snapshot.data!.docs;
-                  return ListView.builder(
-                    itemCount: results.length,
-                    itemBuilder: (context, index) {
-                      var department = results[index];
-                      return ListTile(
-                        title: Text(department['name']),
-                        onTap: () {
-                          // Handle tap on the department
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -289,8 +253,7 @@ void _onSearchChanged(String query) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const Info(), // Navigate to FloorDetail screen
+                              builder: (context) => const Info(),
                             ),
                           );
                         },
@@ -470,7 +433,20 @@ void _onSearchChanged(String query) {
               ),
             ],
             backgroundColor: MyColors.tertiaryColor,
-            onTap: _onTap,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+
+              if (index == 0) {
+              } else if (index == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NavigationPge()),
+                );
+              }
+            },
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -502,13 +478,4 @@ void _onSearchChanged(String query) {
       ),
     );
   }
-}
-
-Stream<QuerySnapshot> searchDepartments(String searchTerm) {
-  return FirebaseFirestore.instance
-      .collection('buildings')
-      .doc('floors')
-      .collection('departments')
-      .where('name', isGreaterThanOrEqualTo: searchTerm)
-      .snapshots();
 }

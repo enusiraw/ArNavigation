@@ -26,10 +26,10 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"
             />
-            <meta-data
+            <!--<meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyD7gg63A-NVA2Em9NKl9Vb2B-fZIN_8c0k" />
-            <meta-data android:name="com.google.ar.core" android:value="required" />
+                android:value="AIzaSyD7gg63A-NVA2Em9NKl9Vb2B-fZIN_8c0k" />-->
+            <!--<meta-data android:name="com.google.ar.core" android:value="required" />-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

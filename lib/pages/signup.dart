@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/services/google_services.dart';
 import 'package:ar_navigation/utilities/validators.dart';
@@ -10,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -42,7 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       await db
-          .collection("Users")
+          .collection("users")
           .doc(userCredential.user!.uid)
           .set({"Name": name, "Email": email});
 
@@ -125,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Center(
               child: SizedBox(
                 height: MediaQuery.of(context).size.height / 3.5,
-                child: Image.asset("assets/images/login1.jpg"),
+                child: Image.asset("assets/images/login2.png"),
               ),
             ),
             const SizedBox(height: 10),

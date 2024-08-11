@@ -22,7 +22,6 @@ class _InfoState extends State<Info> {
           Lottie.asset(
             'assets/animations/navigator.json',
             repeat: true,
-            
           ),
           SingleChildScrollView(
             child: Padding(
@@ -46,8 +45,7 @@ class _InfoState extends State<Info> {
                             padding: const EdgeInsets.all(20),
                             child: const Column(
                               children: [
-                                SizedBox(
-                                    height: 50), 
+                                SizedBox(height: 50),
                                 Text(
                                   'Department Information',
                                   style: TextStyle(
@@ -98,11 +96,10 @@ class _InfoState extends State<Info> {
                               },
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const ImageIcon(
                                     AssetImage("assets/images/footstep.png"),
-                                   
                                   ),
                                   Text(
                                     "Go",

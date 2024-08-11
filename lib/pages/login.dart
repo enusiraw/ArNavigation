@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Center(
               child: Container(
                 height: MediaQuery.of(context).size.height / 3.5,
-                child: Image.asset("assets/images/login2.jpg"),
+                child: Image.asset("assets/images/login1.png"),
               ),
             ),
             const SizedBox(height: 10),

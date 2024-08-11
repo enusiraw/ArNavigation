@@ -9,7 +9,7 @@ class SearchService {
     if (query.isEmpty) return [];
 
     final results = await _firestore
-        .collection('Departments')
+        .collection('departments')
         .where('name', isGreaterThanOrEqualTo: query)
         .where('name', isLessThanOrEqualTo: '$query\uf8ff')
         .get();

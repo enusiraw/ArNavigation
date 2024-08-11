@@ -51,8 +51,7 @@ dependencies:
   http: ^1.2.2
   permission_handler: ^11.3.1
   shared_preferences: ^2.3.0
-  google_maps: ^8.0.0
-  google_maps_flutter: ^2.7.1
+  
   
  
  

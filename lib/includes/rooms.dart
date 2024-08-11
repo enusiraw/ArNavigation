@@ -1,3 +1,4 @@
+import 'package:ar_navigation/includes/colors.dart';
 import 'package:flutter/material.dart';
 
 class Rooms extends StatelessWidget {
@@ -12,7 +13,7 @@ class Rooms extends StatelessWidget {
       onTap: onTap, // Use the onTap callback
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: MyColors.tertiaryColor,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(12.0),

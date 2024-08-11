@@ -2,6 +2,7 @@ import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/login.dart';
 import 'package:ar_navigation/pages/signup.dart';
 import 'package:ar_navigation/pages/welcom.dart';
+import 'package:ar_navigation/services/AuthChecker.dart';
 import 'package:ar_navigation/services/location_service.dart';
 import 'package:ar_navigation/theme/theme.dart';
 import 'package:ar_navigation/theme/theme_provider.dart';
@@ -44,9 +45,13 @@ class MyApp extends StatelessWidget {
               darkTheme: darkTheme,
               themeMode: themeProvider.themeMode,
               routes: {
+                '/home': (context) => const Home(),
                 '/signin': (context) => const SignUpScreen(),
                 '/login': (context) => const LoginScreen(),
+                // '/map': (context) => MapView(),
+
               },
+
               home: FutureBuilder<bool>(
                 future: _checkFirstLaunch(),
                 builder: (context, snapshot) {
@@ -54,13 +59,13 @@ class MyApp extends StatelessWidget {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.data == true) {
-                    return const Home();
+                    return const AuthChecker();
                   }
                   return StreamBuilder<User?>(
                     stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return const Home();
+                        return const AuthChecker();
                       } else {
                         return const Welcome();
                       }

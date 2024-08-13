@@ -3,8 +3,8 @@ import 'package:ar_navigation/includes/functions%5D/search_service.dart';
 import 'package:ar_navigation/includes/rooms.dart';
 import 'package:ar_navigation/pages/navigation.dart';
 import 'package:ar_navigation/pages/profile.dart';
+import 'package:ar_navigation/services/camera_service.dart';
 import 'package:ar_navigation/services/location_service.dart';
-import 'package:ar_navigation/utilities/db_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -167,21 +167,21 @@ class _HomeState extends State<Home> {
                 Icons.map,
                 'Map View',
                 onTap: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/map');
                 },
               ),
               _buildDrawerItem(
                 Icons.settings,
                 'Settings',
                 onTap: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/settings');
                 },
               ),
               _buildDrawerItem(
                 Icons.info,
                 'About Us',
                 onTap: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/about');
                 },
               ),
               _buildDrawerItem(Icons.contact_page_outlined, 'Contact Us',
@@ -443,7 +443,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const NavigationPge()),
+                      builder: (context) => const CameraService()),
                 );
               }
             },

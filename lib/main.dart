@@ -1,8 +1,9 @@
+import 'package:ar_navigation/pages/about.dart';
 import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/login.dart';
+import 'package:ar_navigation/pages/settings.dart';
 import 'package:ar_navigation/pages/signup.dart';
 import 'package:ar_navigation/pages/welcom.dart';
-import 'package:ar_navigation/services/AuthChecker.dart';
 import 'package:ar_navigation/services/location_service.dart';
 import 'package:ar_navigation/theme/theme.dart';
 import 'package:ar_navigation/theme/theme_provider.dart';
@@ -48,29 +49,23 @@ class MyApp extends StatelessWidget {
                 '/home': (context) => const Home(),
                 '/signin': (context) => const SignUpScreen(),
                 '/login': (context) => const LoginScreen(),
+                '/about': (context) => const AboutPage(),
+                '/settings': (context) => const SettingsPage(),
+                '/contact': (context) => const LoginScreen(),
                 // '/map': (context) => MapView(),
-
               },
-
-              home: FutureBuilder<bool>(
-                future: _checkFirstLaunch(),
+              home: FutureBuilder<String>(
+                future: _getInitialScreen(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.data == 'welcome') {
+                    return const Welcome();
+                  } else if (snapshot.data == 'home') {
+                    return const Home();
+                  } else {
+                    return const Home();
                   }
-                  if (snapshot.data == true) {
-                    return const AuthChecker();
-                  }
-                  return StreamBuilder<User?>(
-                    stream: FirebaseAuth.instance.authStateChanges(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return const AuthChecker();
-                      } else {
-                        return const Welcome();
-                      }
-                    },
-                  );
                 },
               ),
             );
@@ -80,8 +75,17 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Future<bool> _checkFirstLaunch() async {
+  Future<String> _getInitialScreen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isFirstLaunch') ?? true;
+    bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+
+    if (isFirstLaunch) {
+      await prefs.setBool('isFirstLaunch', false);
+      return 'welcome';
+    }
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    return user != null ? 'home' : 'authChecker';
   }
 }

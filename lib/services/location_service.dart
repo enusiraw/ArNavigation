@@ -70,7 +70,7 @@ class LocationService with ChangeNotifier {
               },
             ),
             TextButton(
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
               onPressed: () {
                 Navigator.of(context).pop();
               },

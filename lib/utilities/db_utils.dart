@@ -37,7 +37,7 @@ class DBUtils {
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.where((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         final name = data['name'] as String;
         return name.toLowerCase().contains(searchTerm.toLowerCase());
       }).toList();

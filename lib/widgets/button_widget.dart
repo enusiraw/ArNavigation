@@ -5,7 +5,7 @@ class ButtonWidget extends StatelessWidget {
   final String btnText;
   final VoidCallback onPress;
 
-  const ButtonWidget({super.key, required this.btnText, required this.onPress});
+  const ButtonWidget({super.key, required this.btnText, required this.onPress,  ButtonStyle? style});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget {
       ),
       child: Text(
         btnText.toUpperCase(),
-        style: GoogleFonts.notoSans(
+        style: GoogleFonts.josefinSans(
           fontSize: 25,
           fontWeight: FontWeight.bold,
           color: Theme.of(context).primaryColor,

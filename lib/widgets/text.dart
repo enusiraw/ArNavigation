@@ -12,7 +12,7 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: GoogleFonts.roboto(
+      style: GoogleFonts.josefinSans(
         fontSize: txtSize,
         fontWeight: FontWeight.bold,
         color: txtColor,

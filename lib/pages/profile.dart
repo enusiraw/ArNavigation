@@ -93,7 +93,7 @@ class Profile extends StatelessWidget {
                         Text(' $firstName',
                             style: TextStyle(
                                 fontSize: 24, color: MyColors.primaryColor)),
-                        Text('$email',
+                        Text(email,
                             style: TextStyle(
                                 fontSize: 18, color: MyColors.primaryColor)),
                       ],

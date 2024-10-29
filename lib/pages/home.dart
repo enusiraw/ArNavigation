@@ -1,14 +1,16 @@
 import 'package:ar_navigation/includes/colors.dart';
 import 'package:ar_navigation/includes/functions%5D/search_service.dart';
 import 'package:ar_navigation/includes/rooms.dart';
-import 'package:ar_navigation/pages/navigation.dart';
 import 'package:ar_navigation/pages/profile.dart';
 import 'package:ar_navigation/services/camera_service.dart';
 import 'package:ar_navigation/services/location_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+//import 'package:'
 import 'info.dart';
 
 class Home extends StatefulWidget {
@@ -27,8 +29,8 @@ class _HomeState extends State<Home> {
   late LocationService _locationService;
   int _currentIndex = 0;
 
-  final textDisplay = GoogleFonts.lato(
-    color: MyColors.textColorwhite,
+  final textDisplay = GoogleFonts.josefinSans(
+    color: Color.fromARGB(255, 52, 51, 51),
     fontSize: 19.0,
     fontWeight: FontWeight.bold,
   );
@@ -189,233 +191,248 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Welcome To",
-                  style: GoogleFonts.lato(
-                      fontSize: 24, color: MyColors.primaryColor)),
-              Text("SSGI Office Navigation",
-                  style: GoogleFonts.lato(
-                      fontSize: 24, color: MyColors.primaryColor)),
-              const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                  color: MyColors.tertiaryColor,
-                  borderRadius: BorderRadius.circular(12),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Welcome To",
+                    style: GoogleFonts.lato(
+                        fontSize: 24, color: MyColors.primaryColor)),
+                Text("SSGI Office Navigation",
+                    style: GoogleFonts.lato(
+                        fontSize: 24, color: MyColors.primaryColor)),
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    color: MyColors.tertiaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: MyColors.tertiaryColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(width: 5),
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (query) {
-                          _searchDepartments();
-                        },
-                        decoration: const InputDecoration(
-                          hintText: 'Search...',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: InputBorder.none,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (query) {
+                            _searchDepartments();
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Search...',
+                            hintStyle: TextStyle(
+                                color: Color.fromARGB(255, 52, 51, 51)),
+                            border: InputBorder.none,
+                          ),
+                          style: textDisplaySmall,
                         ),
-                        style: textDisplaySmall,
                       ),
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: _searchDepartments,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Rooms(
+                          roomrsicon: '🚽',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Info(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Rest Room",
+                          style: GoogleFonts.josefinSans(
+                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: _searchDepartments,
+                    Column(
+                      children: [
+                        Rooms(
+                          roomrsicon: '🥤',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Info()),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Lounge",
+                          style: GoogleFonts.josefinSans(
+                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Rooms(
+                          roomrsicon: '📑',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Info(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Meeting",
+                          style: GoogleFonts.josefinSans(
+                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Rooms(
+                          roomrsicon: '📚',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Info(),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Library",
+                          style: GoogleFonts.josefinSans(
+                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        )
+                      ],
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Rooms(
-                        roomrsicon: '🚽',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Info(),
+                const SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      child: Text(
+                    "Department Categories",
+                    style: textDisplay,
+                  )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 4.0),
+                  child: SizedBox(
+                    height: 300,
+                    child: ListView(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const Info()),
+                              );
+                            },
+                            child: Container(
+                              height: 200,
+                              width: 250,
+                              color: Colors.white,
                             ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      const Text("Rest Room",
-                          style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Rooms(
-                        roomrsicon: '🥤',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Info()),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      const Text("Lounge",
-                          style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Rooms(
-                        roomrsicon: '📑',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Info(),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const Info()),
+                              );
+                            },
+                            child: Container(
+                              height: 200,
+                              width: 250,
+                              color: Colors.white,
                             ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      const Text("Meeting",
-                          style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Rooms(
-                        roomrsicon: '📚',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Info(),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const Info()),
+                              );
+                            },
+                            child: Container(
+                              height: 200,
+                              width: 250,
+                              color: Colors.white,
                             ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      const Text("Library",
-                          style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    child: Text(
-                  "Department Categories",
-                  style: textDisplay,
-                )),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 4.0),
-                child: SizedBox(
-                  height: 300,
-                  child: ListView(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const Info()),
-                            );
-                          },
-                          child: Container(
-                            height: 200,
-                            width: 250,
-                            color: MyColors.tertiaryColor,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const Info()),
-                            );
-                          },
-                          child: Container(
-                            height: 200,
-                            width: 250,
-                            color: MyColors.tertiaryColor,
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const Info()),
+                              );
+                            },
+                            child: Container(
+                              height: 200,
+                              width: 250,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const Info()),
-                            );
-                          },
-                          child: Container(
-                            height: 200,
-                            width: 250,
-                            color: MyColors.tertiaryColor,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: MyColors.primaryColorBg,
+                            ),
+                            onPressed: _scrollLeft,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const Info()),
-                            );
-                          },
-                          child: Container(
-                            height: 200,
-                            width: 250,
-                            color: MyColors.tertiaryColor,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: MyColors.primaryColorBg,
-                          ),
-                          onPressed: _scrollLeft,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: ClipRRect(
@@ -432,7 +449,7 @@ class _HomeState extends State<Home> {
                 label: 'Camera',
               ),
             ],
-            backgroundColor: MyColors.tertiaryColor,
+            backgroundColor: Color.fromARGB(255, 198, 193, 191),
             onTap: (index) {
               setState(() {
                 _currentIndex = index;

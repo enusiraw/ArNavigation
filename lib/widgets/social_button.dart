@@ -27,7 +27,7 @@ class SocialButtonWidget extends StatelessWidget {
               Image(
                 image: AssetImage(imagePath),
               ),
-              TextWidget(
+              const TextWidget(
                 title: "Google",
                 txtSize: 18.0,
                 txtColor: Colors.black,

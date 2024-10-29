@@ -1,5 +1,5 @@
-import 'package:ar_navigation/includes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Rooms extends StatelessWidget {
   final String roomrsicon;
@@ -13,16 +13,15 @@ class Rooms extends StatelessWidget {
       onTap: onTap, // Use the onTap callback
       child: Container(
         decoration: BoxDecoration(
-          color: MyColors.tertiaryColor,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(12.0),
         child: Center(
           child: Text(
             roomrsicon,
-            style: const TextStyle(
-              fontSize: 28,
-            ),
+            style: GoogleFonts.josefinSans(
+                fontSize: 28, fontWeight: FontWeight.w500),
           ),
         ),
       ),

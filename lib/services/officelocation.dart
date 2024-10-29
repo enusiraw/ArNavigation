@@ -17,7 +17,7 @@ Future<GeoPoint> getOfficeLocation() async {
     } catch (e) {
       print("Error retrieving location: $e");
       retries--;
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
     }
   }
   throw Exception("Failed to retrieve office location after retries");

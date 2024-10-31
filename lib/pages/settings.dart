@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
           style: GoogleFonts.josefinSans(
             fontSize: 16.sp,
             fontWeight: FontWeight.w500,
-            color: Color(0xFF1C1C1C),
+            color: const Color(0xFF1C1C1C),
           ),
         ),
         //backgroundColor: MyColors.backgroundColor,
@@ -119,7 +119,7 @@ class SettingsPage extends StatelessWidget {
         style: GoogleFonts.lato(
           fontSize: 18.sp,
           fontWeight: FontWeight.bold,
-          color: Color(0xFF1C1C1C),
+          color: const Color(0xFF1C1C1C),
         ),
       ),
     );

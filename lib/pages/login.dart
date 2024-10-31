@@ -1,3 +1,4 @@
+import 'package:ar_navigation/pages/forgotPassword.dart';
 import 'package:ar_navigation/pages/home.dart';
 import 'package:ar_navigation/pages/signup.dart';
 import 'package:ar_navigation/widgets/text.dart'; 
@@ -8,7 +9,7 @@ import '../services/user_services.dart';
 import '../widgets/loading.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -17,8 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool isLoading = false; // Loading state variable
-
+  bool isLoading = false; 
   @override
   void dispose() {
     emailController.dispose();
@@ -104,11 +104,11 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    offset: Offset(0, 4),
                   ),
                 ],
               ),
@@ -151,7 +151,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Add your "Forgot Password" logic here
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ForgetPasswordScreen(),
+                            ),
+                          );
                         },
                         child: const TextWidget(
                           title: "Forget Password?",

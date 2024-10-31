@@ -1,9 +1,7 @@
 // logout_dialog.dart
 import 'package:ar_navigation/pages/login.dart';
-import 'package:ar_navigation/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ar_navigation/pages/home.dart'; 
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});

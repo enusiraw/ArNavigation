@@ -65,7 +65,7 @@ class ProfileInformationPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
@@ -73,7 +73,7 @@ class ProfileInformationPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       'Name: $firstName',
                       style: GoogleFonts.lato(fontSize: 18),
@@ -82,7 +82,7 @@ class ProfileInformationPage extends StatelessWidget {
                       'Email: $email',
                       style: GoogleFonts.lato(fontSize: 18),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     Text(
                       'Navigation History',
@@ -91,11 +91,11 @@ class ProfileInformationPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     _buildNavigationHistoryTile('Location A'),
                     _buildNavigationHistoryTile('Location B'),
                     _buildNavigationHistoryTile('Location C'),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     Text(
                       'Ways to Remember',
@@ -104,21 +104,21 @@ class ProfileInformationPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     _buildWayToRememberTile('Use landmarks'),
                     _buildWayToRememberTile('Take notes'),
                     _buildWayToRememberTile('Set reminders'),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     ElevatedButton(
                       onPressed: () {
                         // Handle edit action
                       },
-                      child: Text('Edit Profile'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: MyColors.primaryColor,
                         textStyle: GoogleFonts.lato(color: Colors.white),
                       ),
+                      child: Text('Edit Profile'),
                     ),
                   ],
                 ),
@@ -139,7 +139,7 @@ class ProfileInformationPage extends StatelessWidget {
           location,
           style: GoogleFonts.lato(fontSize: 16),
         ),
-        trailing: Icon(Icons.arrow_forward),
+        trailing: const Icon(Icons.arrow_forward),
         onTap: () {
           // Handle navigation history tap
         },
@@ -156,7 +156,7 @@ class ProfileInformationPage extends StatelessWidget {
           tip,
           style: GoogleFonts.lato(fontSize: 16),
         ),
-        trailing: Icon(Icons.check),
+        trailing: const Icon(Icons.check),
         onTap: () {
           // Handle tip tap
         },

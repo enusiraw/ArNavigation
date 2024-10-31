@@ -28,7 +28,7 @@ class _InfoState extends State<Info> {
               padding: EdgeInsets.only(top: screenHeight * 0.43),
               child: Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Stack(
                       clipBehavior: Clip.none,
@@ -37,26 +37,42 @@ class _InfoState extends State<Info> {
                         Card(
                           elevation: 4,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
+                            borderRadius: BorderRadius.circular(15.r),
                           ),
                           child: Container(
                             width: 350,
                             height: 500,
                             padding: const EdgeInsets.all(20),
-                            child: const Column(
+                            child: Column(
                               children: [
-                                SizedBox(height: 50),
+                                const SizedBox(height: 30),
                                 Text(
-                                  'Department Information',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'This is a smaller card centered on the page.',
+                                  'Aeronautics and Astronautics',
+                                  style: GoogleFonts.josefinSans(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.primaryColorBg,
+                                  ),
                                   textAlign: TextAlign.center,
                                 ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  'Explore the exciting fields of Aeronautics and Astronautics, where technology meets the skies and beyond.',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.josefinSans(fontSize: 16),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Departments:',
+                                  style: GoogleFonts.josefinSans(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondaryColor,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 10),
+                                ..._buildDepartmentList(),
                               ],
                             ),
                           ),
@@ -79,7 +95,7 @@ class _InfoState extends State<Info> {
                           top: -20,
                           right: 50,
                           child: Container(
-                            width: 70,
+                            width: 100,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -94,6 +110,13 @@ class _InfoState extends State<Info> {
                                           const CameraService()),
                                 );
                               },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: MyColors.primaryColorBg,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -103,9 +126,9 @@ class _InfoState extends State<Info> {
                                   ),
                                   Text(
                                     "Go",
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.josefinSans(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20.sp),
+                                        fontSize: 18.sp),
                                   )
                                 ],
                               ),
@@ -122,5 +145,29 @@ class _InfoState extends State<Info> {
         ],
       ),
     );
+  }
+
+  List<Widget> _buildDepartmentList() {
+    List<String> departments = [
+      'Aerodynamics',
+      'Propulsion',
+      'Avionics',
+      'Space Systems',
+      'Flight Mechanics',
+    ];
+    return departments.map((department) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Text(
+          department,
+          style: GoogleFonts.josefinSans(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }).toList();
   }
 }

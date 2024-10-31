@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String btnText;
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
+  
 
   const ButtonWidget({super.key, required this.btnText, required this.onPress,  ButtonStyle? style});
 

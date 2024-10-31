@@ -27,7 +27,7 @@ class _WelcomeState extends State<Welcome> {
       bodyTextStyle: GoogleFonts.josefinSans(
         fontSize: 18.0.sp,
       ),
-      bodyPadding: EdgeInsets.symmetric(horizontal: 16.0),
+      bodyPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );

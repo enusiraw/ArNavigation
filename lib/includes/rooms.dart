@@ -13,7 +13,7 @@ class Rooms extends StatelessWidget {
       onTap: onTap, // Use the onTap callback
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color(0xFFF2F0EF),
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(12.0),

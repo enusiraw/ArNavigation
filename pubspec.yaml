@@ -51,6 +51,8 @@ dependencies:
   http: ^1.2.2
   permission_handler: ^11.3.1
   shared_preferences: ^2.3.0
+  video_player: ^2.9.2
+  font_awesome_flutter: ^10.7.0
   
   
  
@@ -86,6 +88,11 @@ flutter:
     - assets/animations/page3.json
     - assets/animations/navigator.json
     - assets/images/
+    - assets/images/rocket.jpg
+    - assets/images/starry.jpg
+    - assets/images/globe.mp4
+    - assets/images/library.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
